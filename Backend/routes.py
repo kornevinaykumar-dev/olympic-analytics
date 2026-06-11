@@ -133,17 +133,18 @@ def medals():
 
     total_rows = q.count()
     rows = q.offset((page - 1) * per_page).limit(per_page).all()
-    data = [
-        {
-            "rank": (page - 1) * per_page + i + 1,
-            "country": r.country,
-            "gold": int(r.g or 0),
-            "silver": int(r.s or 0),
-            "bronze": int(r.b or 0),
-            "total": int(r.t or 0),
-        }
-        for i, r in enumerate(rows)
-    ]
+    
+    data = []
+
+    for i, r in enumerate(rows):
+        data.append({
+        "rank": (page - 1) * per_page + i + 1,
+        "country": str(r[0]),
+        "gold": int(r[1]),
+        "silver": int(r[2]),
+        "bronze": int(r[3]),
+        "total": int(r[4])
+    })
     return jsonify({"rows": data, "total": total_rows, "page": page, "per_page": per_page})
 
 

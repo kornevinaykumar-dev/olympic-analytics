@@ -17,7 +17,7 @@ def create_app():
     )
     app = Flask(__name__, static_folder=frontend_dir, static_url_path="")
     app.config.from_object(Config)
-
+    print("DATABASE:", os.getenv("MYSQL_URL"))
     db.init_app(app)
     bcrypt.init_app(app)
     JWTManager(app)
