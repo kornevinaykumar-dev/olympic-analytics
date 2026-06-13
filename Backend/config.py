@@ -7,19 +7,17 @@ load_dotenv()
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "change-me-in-production")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "jwt-change-me")
-    JWT_ACCESS_TOKEN_EXPIRES = 60 * 60 * 24  # 24 hours
+    JWT_ACCESS_TOKEN_EXPIRES = 60 * 60 * 24  # 24h
 
-    # Railway MySQL URL fix
-    db_url = os.getenv("MYSQL_URL")
+    DB_USER = os.getenv("DB_USER", "root")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = os.getenv("DB_PORT", "3306")
+    DB_NAME = os.getenv("DB_NAME", "olympic_analytics_db")
 
-    if db_url:
-        db_url = db_url.replace(
-            "mysql://",
-            "mysql+pymysql://",
-            1
-        )
-
-    SQLALCHEMY_DATABASE_URI = db_url
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")

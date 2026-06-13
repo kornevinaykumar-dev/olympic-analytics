@@ -17,7 +17,7 @@ def create_app():
     )
     app = Flask(__name__, static_folder=frontend_dir, static_url_path="")
     app.config.from_object(Config)
-    print("DATABASE:", os.getenv("MYSQL_URL"))
+
     db.init_app(app)
     bcrypt.init_app(app)
     JWTManager(app)
@@ -52,10 +52,7 @@ def create_app():
 
     return app
 
-# Create app for Gunicorn/Render
-app = create_app()
 
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app = create_app()
+    app.run(host="0.0.0.0", port=5000, debug=True)
